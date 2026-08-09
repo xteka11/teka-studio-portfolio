@@ -1,0 +1,143 @@
+---
+/**
+ * Hero: el rótulo de Teka Studio.
+ * Es el elemento de marca del sitio, así que concentra aquí la personalidad
+ * visual y deja el resto de secciones tranquilas.
+ */
+---
+
+<header class="hero">
+  <div class="container">
+    <div class="sign">
+      <p class="sign__eyebrow">Diseño web · Sevilla</p>
+      <h1 class="sign__name">Teka Studio</h1>
+      <p class="sign__claim">Webs a medida para negocios de barrio</p>
+    </div>
+
+    <p class="hero__text">
+      Nada de plantillas: cada web se construye desde cero, rápida y segura.
+      Yo me encargo del dominio, el alojamiento y el mantenimiento. Tú, de tu
+      negocio.
+    </p>
+
+    <div class="hero__actions">
+      <a class="button button--primary" href="#contacto">Pide presupuesto</a>
+      <a class="button button--ghost" href="#servicios">Ver servicios</a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding-block: var(--space-2xl);
+    text-align: center;
+  }
+
+  /* El panel del rótulo, con cenefa de azulejo arriba y abajo. */
+  .sign {
+    position: relative;
+    background-color: var(--color-surface);
+    border: 2px solid var(--color-ink);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: var(--space-lg) var(--space-md);
+    max-width: 44rem;
+    margin-inline: auto;
+  }
+
+  .sign::before,
+  .sign::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    height: 18px;
+    background-color: color-mix(in srgb, var(--color-tile) 10%, transparent);
+    background-image:
+      repeating-linear-gradient(
+        45deg,
+        var(--color-tile) 0 5px,
+        transparent 5px 16px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        var(--color-tile) 0 5px,
+        transparent 5px 16px
+      );
+  }
+
+  .sign::before {
+    top: 0;
+  }
+
+  .sign::after {
+    bottom: 0;
+  }
+
+  .sign__eyebrow {
+    font-size: var(--text-sm);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+    margin-block: var(--space-sm) 0;
+  }
+
+  .sign__name {
+    font-size: var(--text-3xl);
+    color: var(--color-tile);
+    margin-block: var(--space-xs);
+  }
+
+  .sign__claim {
+    font-size: var(--text-lg);
+    color: var(--color-ink);
+    margin-block-end: var(--space-sm);
+  }
+
+  .hero__text {
+    max-width: 34rem;
+    margin: var(--space-lg) auto 0;
+    color: var(--color-muted);
+    font-size: var(--text-lg);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-block-start: var(--space-lg);
+  }
+
+  /* Botones: viven aquí de momento; los moveremos a un componente propio
+     en cuanto se repitan en otra sección. */
+  .button {
+    display: inline-block;
+    padding: 0.8rem 1.6rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.15s ease, background-color 0.15s ease;
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+  }
+
+  .button--primary {
+    background-color: var(--color-tile);
+    color: var(--color-lime);
+  }
+
+  .button--primary:hover {
+    background-color: var(--color-tile-dark);
+  }
+
+  .button--ghost {
+    border: 2px solid var(--color-ink);
+    color: var(--color-ink);
+  }
+
+  .button--ghost:hover {
+    background-color: var(--color-amber);
+  }
+</style>

@@ -1,0 +1,118 @@
+/* ==========================================================================
+   Teka Studio — Tokens de diseño y estilos base
+   Todo el sistema visual vive aquí. Para un cliente nuevo, cambiar los
+   colores y las fuentes de este archivo basta para revestir el sitio entero.
+   ========================================================================== */
+
+:root {
+  /* --- Color --------------------------------------------------------- */
+  --color-ink: #14243a; /* Texto principal, azul noche */
+  --color-tile: #2b5d8c; /* Azul azulejo, color de marca */
+  --color-tile-dark: #1e4468; /* Estado hover sobre el azul */
+  --color-amber: #e0a526; /* Acento de rótulo, solo para llamar la atención */
+  --color-lime: #fafaf7; /* Fondo blanco cal */
+  --color-surface: #ffffff; /* Tarjetas y superficies elevadas */
+  --color-muted: #5c6b7a; /* Texto secundario */
+  --color-border: #e2e0d9;
+
+  /* --- Tipografía ---------------------------------------------------- */
+  --font-display: 'Fraunces', Georgia, serif;
+  --font-body: 'Archivo', system-ui, sans-serif;
+
+  /* Escala fluida: se adapta sola de móvil a escritorio */
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
+  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
+  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  --text-3xl: clamp(2.25rem, 1.6rem + 3vw, 4rem);
+
+  /* --- Espaciado ----------------------------------------------------- */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-2xl: clamp(4rem, 8vw, 7rem);
+
+  /* --- Otros --------------------------------------------------------- */
+  --radius: 10px;
+  --shadow: 0 2px 4px rgb(20 36 58 / 6%), 0 8px 24px rgb(20 36 58 / 8%);
+  --max-width: 1120px;
+}
+
+/* --- Reset mínimo ---------------------------------------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+h3,
+p,
+figure {
+  margin: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-lime);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+  font-size: var(--text-base);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+}
+
+/* --- Accesibilidad --------------------------------------------------- */
+/* Foco visible solo con teclado: obligatorio para navegación accesible. */
+:focus-visible {
+  outline: 3px solid var(--color-amber);
+  outline-offset: 3px;
+}
+
+/* Respetamos a quien tenga reducido el movimiento en su sistema. */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* --- Utilidades de layout -------------------------------------------- */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}

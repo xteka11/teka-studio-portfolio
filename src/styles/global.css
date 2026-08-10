@@ -6,26 +6,30 @@
 
 :root {
   /* --- Color --------------------------------------------------------- */
-  --color-ink: #14243a; /* Texto principal, azul noche */
-  --color-tile: #2b5d8c; /* Azul azulejo, color de marca */
-  --color-tile-dark: #1e4468; /* Estado hover sobre el azul */
-  --color-amber: #e0a526; /* Acento de rótulo, solo para llamar la atención */
-  --color-lime: #fafaf7; /* Fondo blanco cal */
-  --color-surface: #ffffff; /* Tarjetas y superficies elevadas */
-  --color-muted: #5c6b7a; /* Texto secundario */
-  --color-border: #e2e0d9;
+  --color-black: #0a0b0f; /* Fondo más oscuro */
+  --color-graphite: #14161d; /* Segundo nivel de fondo */
+  --color-steel: #1f232d; /* Superficie de tarjetas oscuras */
+  --color-line: #2c313d; /* Bordes sobre fondo oscuro */
+  --color-grey: #8f98ab; /* Texto secundario en oscuro */
+  --color-mist: #e7eaf1; /* Fondo de sección clara */
+  --color-cloud: #f6f7fa; /* Superficie clara elevada */
+  --color-line-light: #ccd2de; /* Bordes sobre fondo claro */
+  --color-slate: #545c6e; /* Texto secundario en claro */
+  --color-white: #ffffff;
+  --color-blue: #2563ff; /* Azul eléctrico, color de marca */
+  --color-blue-deep: #1440c4; /* Estado activo del azul */
 
   /* --- Tipografía ---------------------------------------------------- */
-  --font-display: 'Fraunces', Georgia, serif;
+  --font-display: 'Bricolage Grotesque', system-ui, sans-serif;
   --font-body: 'Archivo', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Escala fluida: se adapta sola de móvil a escritorio */
-  --text-sm: 0.875rem;
+  --text-sm: 0.8125rem;
   --text-base: 1rem;
-  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.25rem);
-  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
-  --text-2xl: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
-  --text-3xl: clamp(2.25rem, 1.6rem + 3vw, 4rem);
+  --text-lg: clamp(1.125rem, 1rem + 0.5vw, 1.3125rem);
+  --text-xl: clamp(1.375rem, 1.2rem + 0.8vw, 1.875rem);
+  --text-2xl: clamp(2rem, 1.5rem + 2.2vw, 3.5rem);
 
   /* --- Espaciado ----------------------------------------------------- */
   --space-xs: 0.5rem;
@@ -33,12 +37,12 @@
   --space-md: 1.5rem;
   --space-lg: 2.5rem;
   --space-xl: 4rem;
-  --space-2xl: clamp(4rem, 8vw, 7rem);
+  --space-2xl: clamp(4rem, 9vw, 8rem);
 
   /* --- Otros --------------------------------------------------------- */
-  --radius: 10px;
-  --shadow: 0 2px 4px rgb(20 36 58 / 6%), 0 8px 24px rgb(20 36 58 / 8%);
-  --max-width: 1120px;
+  --radius: 4px;
+  --max-width: 1240px;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* --- Reset mínimo ---------------------------------------------------- */
@@ -62,11 +66,11 @@ html {
 }
 
 body {
-  background-color: var(--color-lime);
-  color: var(--color-ink);
+  background-color: var(--color-black);
+  color: var(--color-white);
   font-family: var(--font-body);
   font-size: var(--text-base);
-  line-height: 1.65;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -74,9 +78,9 @@ h1,
 h2,
 h3 {
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.035em;
 }
 
 img {
@@ -91,8 +95,49 @@ a {
 /* --- Accesibilidad --------------------------------------------------- */
 /* Foco visible solo con teclado: obligatorio para navegación accesible. */
 :focus-visible {
-  outline: 3px solid var(--color-amber);
+  outline: 3px solid var(--color-blue);
   outline-offset: 3px;
+}
+
+/* --- Utilidades ------------------------------------------------------ */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin-inline: auto;
+  padding-inline: var(--space-md);
+}
+
+/* Etiqueta de sección en monoespaciada: numera y ordena la lectura. */
+.eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-blue);
+}
+
+/* Cenefa a rayas: separa secciones con un corte visible, no con vacío. */
+.stripes {
+  height: 26px;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--color-blue) 0 14px,
+    var(--color-black) 14px 28px
+  );
+}
+
+/* Revelado al entrar en pantalla. El script del layout activa .is-visible. */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(36px);
+  transition:
+    opacity 0.9s var(--ease-out),
+    transform 0.9s var(--ease-out);
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
 }
 
 /* Respetamos a quien tenga reducido el movimiento en su sistema. */
@@ -107,12 +152,9 @@ a {
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
-}
 
-/* --- Utilidades de layout -------------------------------------------- */
-.container {
-  width: 100%;
-  max-width: var(--max-width);
-  margin-inline: auto;
-  padding-inline: var(--space-md);
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
 }

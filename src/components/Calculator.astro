@@ -1,0 +1,251 @@
+﻿---
+/**
+ * Calculadora de coste de oportunidad.
+ * El visitante introduce sus propios números y ve el dinero que deja de
+ * ingresar al año. Es el gancho comercial del sitio: convence con sus datos,
+ * no con nuestros argumentos.
+ */
+---
+
+<section class="calc" id="calculadora">
+  <div class="container calc__inner">
+    <p class="calc__eyebrow" data-reveal>01 / Ponle número</p>
+    <h2 class="calc__title" data-reveal>¿Cuánto te cuesta no tener web?</h2>
+
+    <div class="calc__grid">
+      <div class="calc__controls" data-reveal>
+        <div class="field">
+          <label for="clients">Clientes nuevos al mes</label>
+          <div class="field__row">
+            <input id="clients" type="range" min="5" max="200" value="40" step="5" />
+            <output id="clients-out">40</output>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="ticket">Lo que se gasta un cliente de media</label>
+          <div class="field__row">
+            <input id="ticket" type="range" min="5" max="300" value="35" step="5" />
+            <output id="ticket-out">35 €</output>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="hours">Horas a la semana respondiendo lo mismo</label>
+          <div class="field__row">
+            <input id="hours" type="range" min="0" max="20" value="4" step="1" />
+            <output id="hours-out">4 h</output>
+          </div>
+        </div>
+
+        <p class="calc__disclaimer">
+          Estimación orientativa: parte de que una web bien hecha capta un 25 %
+          más de clientes y te ahorra la mitad de las consultas repetidas.
+        </p>
+      </div>
+
+      <div class="calc__result" data-reveal>
+        <p class="calc__label">Podrías estar ingresando al año</p>
+        <p class="calc__amount" id="amount">0 €</p>
+        <p class="calc__note" id="note"></p>
+        <a class="calc__cta" href="#contacto">Quiero recuperar eso</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const clients = document.getElementById('clients');
+  const ticket = document.getElementById('ticket');
+  const hours = document.getElementById('hours');
+  const amount = document.getElementById('amount');
+  const note = document.getElementById('note');
+
+  const euro = new Intl.NumberFormat('es-ES', {
+    style: 'currency',
+    currency: 'EUR',
+    maximumFractionDigits: 0,
+  });
+
+  // Anima el número hasta su valor final para que la cifra "ruede".
+  function animateTo(target) {
+    const start = Number(amount.dataset.value ?? 0);
+    const startTime = performance.now();
+    const duration = 600;
+
+    function step(now) {
+      const progress = Math.min((now - startTime) / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = Math.round(start + (target - start) * eased);
+      amount.textContent = euro.format(current);
+      if (progress < 1) requestAnimationFrame(step);
+    }
+
+    amount.dataset.value = String(target);
+    requestAnimationFrame(step);
+  }
+
+  function update() {
+    const newClients = Number(clients.value);
+    const avgTicket = Number(ticket.value);
+    const weeklyHours = Number(hours.value);
+
+    // Supuestos declarados en el descargo de la sección.
+    const extraClients = newClients * 0.25;
+    const yearlyRevenue = extraClients * avgTicket * 12;
+    const yearlyHoursSaved = weeklyHours * 0.5 * 52;
+
+    document.getElementById('clients-out').textContent = String(newClients);
+    document.getElementById('ticket-out').textContent = avgTicket + ' €';
+    document.getElementById('hours-out').textContent = weeklyHours + ' h';
+
+    animateTo(Math.round(yearlyRevenue));
+    note.textContent =
+      'Y recuperarías unas ' + Math.round(yearlyHoursSaved) + ' horas al año.';
+  }
+
+  [clients, ticket, hours].forEach((input) =>
+    input.addEventListener('input', update)
+  );
+
+  update();
+</script>
+
+<style>
+  /* Bloque macizo de azul: corta la página en dos y no pasa desapercibido. */
+  .calc {
+    position: relative;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    padding-block: var(--space-2xl);
+    overflow: hidden;
+  }
+
+  /* Estampado de rayas diagonales sobre el azul. */
+  .calc::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      rgb(255 255 255 / 7%) 0 2px,
+      transparent 2px 12px
+    );
+    pointer-events: none;
+  }
+
+  .calc__inner {
+    position: relative;
+  }
+
+  .calc__eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-black);
+  }
+
+  .calc__title {
+    font-size: var(--text-2xl);
+    text-transform: uppercase;
+    margin-block: var(--space-sm) var(--space-xl);
+    max-width: 16ch;
+  }
+
+  .calc__grid {
+    display: grid;
+    gap: var(--space-xl);
+    grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    align-items: start;
+  }
+
+  .calc__controls {
+    display: grid;
+    gap: var(--space-md);
+    transition-delay: 0.1s;
+  }
+
+  .field label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    margin-block-end: var(--space-xs);
+  }
+
+  .field__row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding-block-end: var(--space-xs);
+    border-block-end: 1px solid rgb(255 255 255 / 35%);
+  }
+
+  .field__row input {
+    flex: 1;
+    accent-color: var(--color-black);
+  }
+
+  .field__row output {
+    min-width: 4.5rem;
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: var(--text-lg);
+    text-align: right;
+  }
+
+  .calc__disclaimer {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.7;
+    color: rgb(255 255 255 / 80%);
+  }
+
+  .calc__result {
+    background-color: var(--color-black);
+    border: 3px solid var(--color-white);
+    border-radius: var(--radius);
+    padding: var(--space-lg) var(--space-md);
+    transition-delay: 0.2s;
+  }
+
+  .calc__label {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--color-grey);
+  }
+
+  /* La cifra es el centro de la sección: tipografía de rótulo, a lo grande. */
+  .calc__amount {
+    font-family: var(--font-display);
+    font-size: clamp(2.75rem, 8vw, 5rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    line-height: 1;
+    color: var(--color-blue);
+    margin-block: var(--space-xs);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .calc__note {
+    color: var(--color-grey);
+  }
+
+  .calc__cta {
+    display: inline-block;
+    margin-block-start: var(--space-md);
+    padding: 0.9rem 1.8rem;
+    border-radius: 999px;
+    background-color: var(--color-white);
+    color: var(--color-black);
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.25s var(--ease-out);
+  }
+
+  .calc__cta:hover {
+    transform: translateY(-3px);
+  }
+</style>

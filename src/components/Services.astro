@@ -1,0 +1,286 @@
+---
+/**
+ * Servicios: los tres paquetes de Teka Studio.
+ * Sección clara sobre fondo gris para cortar con el resto de la página.
+ * Los datos van en un array para que añadir o editar un paquete sea tocar
+ * solo una línea, no el HTML.
+ */
+const services = [
+  {
+    code: 'A',
+    name: 'Escaparate',
+    price: 'Desde 600 €',
+    summary:
+      'Tu negocio en internet: quién eres, qué ofreces, horarios y cómo llegar.',
+    features: [
+      'Hasta 5 páginas a medida',
+      'Diseño adaptado a móvil',
+      'Google Maps y botón de WhatsApp',
+      'Alta en Google',
+    ],
+  },
+  {
+    code: 'B',
+    name: 'Negocio',
+    price: 'Desde 900 €',
+    summary:
+      'Todo lo del escaparate más las herramientas que te ahorran llamadas.',
+    features: [
+      'Formulario de reservas o citas',
+      'Galería de trabajos o carta',
+      'Panel para editar contenido',
+      'Blog o sección de novedades',
+    ],
+    featured: true,
+  },
+  {
+    code: 'C',
+    name: 'Tienda',
+    price: 'Desde 1.500 €',
+    summary: 'Vende online con pagos seguros y control de tus pedidos.',
+    features: [
+      'Catálogo de productos',
+      'Pago con tarjeta seguro',
+      'Gestión de pedidos y stock',
+      'Cupones y envíos',
+    ],
+  },
+];
+---
+
+<section class="services" id="servicios">
+  <div class="container services__inner">
+    <div class="services__head">
+      <div data-reveal>
+        <p class="services__eyebrow">02 / Elige tu plan</p>
+        <h2 class="services__title">Elige hasta dónde quieres llegar</h2>
+      </div>
+      <p class="services__intro" data-reveal>
+        Todos los planes incluyen dominio, alojamiento y mantenimiento desde
+        40 €/mes. Sin permanencia.
+      </p>
+    </div>
+
+    <ul class="services__grid">
+      {
+        services.map((service, index) => (
+          <li
+            class:list={['card', { 'card--featured': service.featured }]}
+            data-reveal
+            style={`transition-delay: ${index * 0.12}s`}
+          >
+            <div class="card__head">
+              <span class="card__code">{service.code}</span>
+              {service.featured && <span class="card__tag">Más elegido</span>}
+            </div>
+            <h3 class="card__name">{service.name}</h3>
+            <p class="card__price">{service.price}</p>
+            <p class="card__summary">{service.summary}</p>
+            <ul class="card__features">
+              {service.features.map((feature) => (
+                <li>{feature}</li>
+              ))}
+            </ul>
+            <a class="card__cta" href="#contacto">
+              Me interesa {service.name}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  /* Sección clara: el corte de luminosidad es el mayor contraste del sitio. */
+  .services {
+    position: relative;
+    background-color: var(--color-mist);
+    color: var(--color-black);
+    padding-block: var(--space-2xl);
+    overflow: hidden;
+  }
+
+  /* Estampado de lunares grises sobre el fondo claro. */
+  .services::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: radial-gradient(
+      var(--color-line-light) 1.5px,
+      transparent 1.5px
+    );
+    background-size: 20px 20px;
+    pointer-events: none;
+  }
+
+  .services__inner {
+    position: relative;
+  }
+
+  .services__head {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    align-items: end;
+    margin-block-end: var(--space-xl);
+  }
+
+  .services__eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--color-blue);
+  }
+
+  .services__title {
+    font-size: var(--text-2xl);
+    text-transform: uppercase;
+    margin-block-start: var(--space-sm);
+    max-width: 16ch;
+  }
+
+  .services__intro {
+    color: var(--color-slate);
+    font-size: var(--text-lg);
+    max-width: 38ch;
+  }
+
+  /* Rejilla a hueso: las tarjetas comparten línea, como una tabla técnica. */
+  .services__grid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    gap: 2px;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    background-color: var(--color-black);
+    border: 2px solid var(--color-black);
+  }
+
+  .card {
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-cloud);
+    padding: var(--space-lg) var(--space-md);
+    transition:
+      background-color 0.35s ease,
+      color 0.35s ease;
+  }
+
+  .card:hover {
+    background-color: var(--color-white);
+  }
+
+  .card--featured {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .card--featured:hover {
+    background-color: var(--color-blue);
+  }
+
+  .card__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-block-end: var(--space-lg);
+  }
+
+  .card__code {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    letter-spacing: 0.2em;
+    color: var(--color-slate);
+  }
+
+  .card--featured .card__code {
+    color: var(--color-grey);
+  }
+
+  .card__tag {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    background-color: var(--color-blue);
+    color: var(--color-white);
+    padding: 0.15rem 0.7rem;
+    border-radius: 999px;
+  }
+
+  .card--featured:hover .card__tag {
+    background-color: var(--color-white);
+    color: var(--color-blue);
+  }
+
+  .card__name {
+    font-size: var(--text-xl);
+    text-transform: uppercase;
+  }
+
+  /* El precio es información de decisión: debe leerse de un vistazo. */
+  .card__price {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--color-blue);
+    margin-block: var(--space-xs) var(--space-sm);
+  }
+
+  .card--featured .card__price {
+    color: var(--color-white);
+  }
+
+  .card__summary {
+    color: var(--color-slate);
+    margin-block-end: var(--space-md);
+  }
+
+  .card--featured .card__summary {
+    color: var(--color-grey);
+  }
+
+  .card__features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--space-lg);
+    display: grid;
+    gap: var(--space-xs);
+    font-size: var(--text-sm);
+  }
+
+  .card__features li {
+    padding-block: var(--space-xs);
+    border-block-start: 1px solid var(--color-line-light);
+  }
+
+  .card--featured .card__features li {
+    border-block-start-color: var(--color-line);
+  }
+
+  /* CTA de tarjeta: nombre propio para no chocar con los botones del hero. */
+  .card__cta {
+    margin-block-start: auto;
+    padding: 0.8rem 1rem;
+    border: 2px solid currentcolor;
+    border-radius: 999px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition:
+      background-color 0.25s ease,
+      color 0.25s ease;
+  }
+
+  .card__cta:hover {
+    background-color: var(--color-black);
+    color: var(--color-white);
+  }
+
+  .card--featured .card__cta:hover {
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+</style>

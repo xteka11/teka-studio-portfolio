@@ -1,143 +1,282 @@
 ---
 /**
- * Hero: el rótulo de Teka Studio.
- * Es el elemento de marca del sitio, así que concentra aquí la personalidad
- * visual y deja el resto de secciones tranquilas.
+ * Hero: pantalla completa, nombre a todo lo ancho en una sola línea y
+ * marquesina de oficios. La marquesina es el elemento memorable del sitio:
+ * nombra al cliente real (bares, peluquerías, talleres) en bucle continuo.
  */
+const trades = [
+  'Bares',
+  'Peluquerías',
+  'Talleres',
+  'Floristerías',
+  'Panaderías',
+  'Clínicas',
+  'Tiendas de barrio',
+  'Restaurantes',
+];
 ---
 
 <header class="hero">
-  <div class="container">
-    <div class="sign">
-      <p class="sign__eyebrow">Diseño web · Sevilla</p>
-      <h1 class="sign__name">Teka Studio</h1>
-      <p class="sign__claim">Webs a medida para negocios de barrio</p>
+  <div class="container hero__inner">
+    <div class="hero__top">
+      <p class="eyebrow">Diseño web · Sevilla</p>
+      <p class="hero__meta">Est. 2026 — Dos Hermanas</p>
     </div>
 
-    <p class="hero__text">
-      Nada de plantillas: cada web se construye desde cero, rápida y segura.
-      Yo me encargo del dominio, el alojamiento y el mantenimiento. Tú, de tu
-      negocio.
-    </p>
+    <!-- Una sola línea: el nombre se escala al ancho disponible. -->
+    <h1 class="hero__name">
+      <span class="hero__word">Teka</span>
+      <span class="hero__word hero__word--accent">Studio</span>
+    </h1>
 
-    <div class="hero__actions">
-      <a class="button button--primary" href="#contacto">Pide presupuesto</a>
-      <a class="button button--ghost" href="#servicios">Ver servicios</a>
+    <div class="hero__bottom">
+      <p class="hero__claim">Webs a medida para negocios de barrio</p>
+
+      <div class="hero__col">
+        <p class="hero__text">
+          Nada de plantillas. Cada web se construye desde cero: rápida, segura
+          y tuya. Del dominio al mantenimiento, me encargo yo.
+        </p>
+
+        <div class="hero__actions">
+          <a class="button button--primary" href="#contacto">
+            Pide presupuesto
+          </a>
+          <a class="button button--ghost" href="#servicios">Ver servicios</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Marquesina: se duplica la lista para que el bucle no tenga costura. -->
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee__track">
+      {
+        [...trades, ...trades].map((trade) => (
+          <span class="marquee__item">{trade}</span>
+        ))
+      }
     </div>
   </div>
 </header>
 
 <style>
   .hero {
-    padding-block: var(--space-2xl);
-    text-align: center;
-  }
-
-  /* El panel del rótulo, con cenefa de azulejo arriba y abajo. */
-  .sign {
     position: relative;
-    background-color: var(--color-surface);
-    border: 2px solid var(--color-ink);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    padding: var(--space-lg) var(--space-md);
-    max-width: 44rem;
-    margin-inline: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100svh;
+    background-color: var(--color-black);
+    overflow: hidden;
   }
 
-  .sign::before,
-  .sign::after {
+  /* Rejilla técnica de fondo: da profundidad sin competir con el texto. */
+  .hero::before {
     content: '';
     position: absolute;
-    inset-inline: 0;
-    height: 18px;
-    background-color: color-mix(in srgb, var(--color-tile) 10%, transparent);
+    inset: 0;
     background-image:
-      repeating-linear-gradient(
-        45deg,
-        var(--color-tile) 0 5px,
-        transparent 5px 16px
-      ),
-      repeating-linear-gradient(
-        -45deg,
-        var(--color-tile) 0 5px,
-        transparent 5px 16px
-      );
+      linear-gradient(var(--color-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--color-line) 1px, transparent 1px);
+    background-size: 68px 68px;
+    mask-image: radial-gradient(circle at 20% 30%, black, transparent 80%);
+    pointer-events: none;
   }
 
-  .sign::before {
-    top: 0;
+  /* Estampado de lunares en la esquina: rompe la simetría de la rejilla. */
+  .hero::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    bottom: 120px;
+    width: 380px;
+    height: 380px;
+    background-image: radial-gradient(var(--color-blue) 1.6px, transparent 1.6px);
+    background-size: 18px 18px;
+    opacity: 0.55;
+    pointer-events: none;
   }
 
-  .sign::after {
-    bottom: 0;
+  .hero__inner {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-block: var(--space-xl);
   }
 
-  .sign__eyebrow {
+  .hero__top {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: space-between;
+    padding-block-end: var(--space-sm);
+    border-block-end: 1px solid var(--color-line);
+    animation: rise 0.8s 0.05s both var(--ease-out);
+  }
+
+  .hero__meta {
+    font-family: var(--font-mono);
     font-size: var(--text-sm);
-    letter-spacing: 0.14em;
+    color: var(--color-grey);
+  }
+
+  /* Nombre a sangre: una línea, ajustado al ancho del contenedor. */
+  .hero__name {
+    display: flex;
+    gap: 0.22em;
+    font-size: 10.5vw;
+    line-height: 0.9;
+    letter-spacing: -0.05em;
     text-transform: uppercase;
-    color: var(--color-muted);
-    margin-block: var(--space-sm) 0;
+    white-space: nowrap;
+    margin-block: var(--space-lg);
   }
 
-  .sign__name {
-    font-size: var(--text-3xl);
-    color: var(--color-tile);
-    margin-block: var(--space-xs);
+  .hero__word {
+    animation: rise 1s both var(--ease-out);
   }
 
-  .sign__claim {
-    font-size: var(--text-lg);
-    color: var(--color-ink);
-    margin-block-end: var(--space-sm);
+  .hero__word:nth-child(1) {
+    animation-delay: 0.1s;
+  }
+
+  .hero__word--accent {
+    animation-delay: 0.2s;
+    color: var(--color-blue);
+  }
+
+  .hero__bottom {
+    display: grid;
+    gap: var(--space-lg);
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    padding-block-start: var(--space-md);
+    border-block-start: 1px solid var(--color-line);
+    animation: rise 1s 0.34s both var(--ease-out);
+  }
+
+  .hero__claim {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: var(--text-xl);
+    line-height: 1.05;
+    max-width: 14ch;
+  }
+
+  .hero__col {
+    display: grid;
+    gap: var(--space-md);
+    align-content: start;
   }
 
   .hero__text {
-    max-width: 34rem;
-    margin: var(--space-lg) auto 0;
-    color: var(--color-muted);
+    color: var(--color-grey);
     font-size: var(--text-lg);
+    max-width: 38ch;
   }
 
   .hero__actions {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
     gap: var(--space-sm);
-    margin-block-start: var(--space-lg);
   }
 
-  /* Botones: viven aquí de momento; los moveremos a un componente propio
-     en cuanto se repitan en otra sección. */
   .button {
     display: inline-block;
-    padding: 0.8rem 1.6rem;
-    border-radius: var(--radius);
+    padding: 0.95rem 1.9rem;
+    border-radius: 999px;
     font-weight: 600;
     text-decoration: none;
-    transition: transform 0.15s ease, background-color 0.15s ease;
+    transition:
+      transform 0.25s var(--ease-out),
+      background-color 0.25s ease,
+      color 0.25s ease;
   }
 
   .button:hover {
-    transform: translateY(-2px);
+    transform: translateY(-3px);
   }
 
   .button--primary {
-    background-color: var(--color-tile);
-    color: var(--color-lime);
+    background-color: var(--color-blue);
+    color: var(--color-white);
   }
 
   .button--primary:hover {
-    background-color: var(--color-tile-dark);
+    background-color: var(--color-blue-deep);
   }
 
   .button--ghost {
-    border: 2px solid var(--color-ink);
-    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+    color: var(--color-white);
   }
 
   .button--ghost:hover {
-    background-color: var(--color-amber);
+    background-color: var(--color-white);
+    color: var(--color-black);
+  }
+
+  /* --- Marquesina ---------------------------------------------------- */
+  .marquee {
+    position: relative;
+    padding-block: 1rem;
+    background-color: var(--color-white);
+    border-block: 3px solid var(--color-blue);
+    overflow: hidden;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    animation: slide 40s linear infinite;
+  }
+
+  .marquee__item {
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: var(--color-black);
+    padding-inline: var(--space-md);
+    white-space: nowrap;
+  }
+
+  .marquee__item::after {
+    content: '/';
+    margin-inline-start: var(--space-md);
+    color: var(--color-blue);
+  }
+
+  @media (max-width: 640px) {
+    .hero__name {
+      font-size: 15vw;
+      flex-direction: column;
+      gap: 0;
+    }
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(34px);
+    }
+
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes slide {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-50%);
+    }
   }
 </style>

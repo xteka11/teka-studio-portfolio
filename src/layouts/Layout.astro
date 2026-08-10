@@ -1,9 +1,9 @@
 ---
 /**
  * Layout base de todas las páginas.
- * Centraliza el <head>: SEO, fuentes y estilos globales.
- * Al ser el único sitio donde vive el <head>, un cambio de SEO se hace una
- * sola vez y afecta a todo el sitio.
+ * Centraliza el <head> (SEO, fuentes, estilos) y el observador que revela
+ * las secciones al entrar en pantalla, para que ningún componente repita
+ * esa lógica.
  */
 import '../styles/global.css';
 
@@ -34,16 +34,35 @@ const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content="es_ES" />
+    <meta name="theme-color" content="#0A0B0F" />
 
-    <!-- Fuentes: preconnect acelera la carga desde el primer render. -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600;9..144,700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;500&display=swap"
       rel="stylesheet"
     />
   </head>
   <body>
     <slot />
+
+    <script>
+      // Un único observador para toda la página: revela cada elemento
+      // marcado con data-reveal la primera vez que entra en pantalla.
+      const revealables = document.querySelectorAll('[data-reveal]');
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            entry.target.classList.add('is-visible');
+            observer.unobserve(entry.target);
+          });
+        },
+        { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+      );
+
+      revealables.forEach((element) => observer.observe(element));
+    </script>
   </body>
 </html>

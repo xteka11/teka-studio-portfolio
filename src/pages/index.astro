@@ -2,9 +2,12 @@
 /**
  * Landing principal de Teka Studio.
  * Solo compone secciones: la lógica y los estilos viven en cada componente.
+ * Las cenefas a rayas marcan el corte entre bloques de color.
  */
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import Calculator from '../components/Calculator.astro';
+import Services from '../components/Services.astro';
 ---
 
 <Layout
@@ -12,4 +15,7 @@ import Hero from '../components/Hero.astro';
   description="Webs a medida, rápidas y seguras para pequeños negocios. Dominio, alojamiento y mantenimiento incluidos."
 >
   <Hero />
+  <Calculator />
+  <div class="stripes"></div>
+  <Services />
 </Layout>

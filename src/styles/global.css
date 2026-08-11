@@ -36,8 +36,8 @@
   --space-sm: 1rem;
   --space-md: 1.5rem;
   --space-lg: 2.5rem;
-  --space-xl: 4rem;
-  --space-2xl: clamp(4rem, 9vw, 8rem);
+  --space-xl: 3rem;
+  --space-2xl: clamp(3rem, 5.5vw, 4.5rem); /* Aire entre secciones */
 
   /* --- Otros --------------------------------------------------------- */
   --radius: 4px;
@@ -90,6 +90,13 @@ img {
 
 a {
   color: inherit;
+}
+
+/* Al saltar desde un enlace interno, el navegador para un poco antes del
+   borde: así la sección nunca aparece pegada al filo de la pantalla. */
+:target,
+section[id] {
+  scroll-margin-block-start: var(--space-md);
 }
 
 /* --- Accesibilidad --------------------------------------------------- */

@@ -1,0 +1,189 @@
+---
+/**
+ * Proceso de trabajo en cuatro pasos.
+ * Responde al miedo real del cliente pequeño: no saber qué va a pasar ni
+ * cuánto va a tardar. Cada paso lleva plazo visible para eliminar dudas.
+ */
+const steps = [
+  {
+    number: '01',
+    title: 'Hablamos',
+    time: '20 minutos',
+    text: 'Me cuentas qué vendes y a quién. Te digo qué necesitas de verdad y qué no, aunque sea menos de lo que pensabas. Sin compromiso.',
+  },
+  {
+    number: '02',
+    title: 'Presupuesto cerrado',
+    time: '2 días',
+    text: 'Recibes por escrito qué incluye, qué cuesta y cuándo estará. Precio fijo: lo que firmas es lo que pagas. Se empieza con el 50 %.',
+  },
+  {
+    number: '03',
+    title: 'Diseño y construcción',
+    time: '2 a 3 semanas',
+    text: 'Voy enseñándote avances por WhatsApp. Los cambios entran sobre la marcha, no al final. Tú solo aportas fotos y textos.',
+  },
+  {
+    number: '04',
+    title: 'Publicación y cuidado',
+    time: 'para siempre',
+    text: 'La web sale a internet con su dominio y su certificado. A partir de ahí me encargo yo: copias de seguridad, actualizaciones y vigilancia.',
+  },
+];
+---
+
+<section class="process" id="proceso">
+  <div class="container process__inner">
+    <div class="process__head">
+      <div data-reveal>
+        <p class="eyebrow">03 / Cómo trabajo</p>
+        <h2 class="process__title">De la primera llamada a tu web publicada</h2>
+      </div>
+      <p class="process__intro" data-reveal>
+        Sin sorpresas ni letra pequeña. Sabes en todo momento en qué punto
+        estamos y cuánto queda.
+      </p>
+    </div>
+
+    <ol class="process__list">
+      {
+        steps.map((step, index) => (
+          <li
+            class="step"
+            data-reveal
+            style={`transition-delay: ${index * 0.1}s`}
+          >
+            <span class="step__number">{step.number}</span>
+            <div class="step__body">
+              <div class="step__head">
+                <h3 class="step__title">{step.title}</h3>
+                <span class="step__time">{step.time}</span>
+              </div>
+              <p class="step__text">{step.text}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .process {
+    position: relative;
+    background-color: var(--color-graphite);
+    padding-block: var(--space-2xl);
+    overflow: hidden;
+  }
+
+  /* Rejilla de fondo: mismo lenguaje técnico que el hero, más contenida. */
+  .process::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: linear-gradient(
+      90deg,
+      var(--color-line) 1px,
+      transparent 1px
+    );
+    background-size: 84px 100%;
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  .process__inner {
+    position: relative;
+  }
+
+  .process__head {
+    display: grid;
+    gap: var(--space-md);
+    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    align-items: end;
+    margin-block-end: var(--space-xl);
+  }
+
+  .process__title {
+    font-size: var(--text-2xl);
+    text-transform: uppercase;
+    margin-block-start: var(--space-sm);
+    max-width: 24ch;
+  }
+
+  .process__intro {
+    color: var(--color-grey);
+    font-size: var(--text-lg);
+    max-width: 38ch;
+  }
+
+  .process__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    border-block-start: 1px solid var(--color-line);
+  }
+
+  /* Cada paso es una fila de tabla: el número manda, el texto acompaña. */
+  .step {
+    display: grid;
+    gap: var(--space-sm) var(--space-lg);
+    grid-template-columns: minmax(0, 6rem) 1fr;
+    align-items: start;
+    padding-block: var(--space-lg);
+    border-block-end: 1px solid var(--color-line);
+    transition: background-color 0.35s ease;
+  }
+
+  .step:hover {
+    background-color: var(--color-steel);
+  }
+
+  .step__number {
+    font-family: var(--font-display);
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 800;
+    line-height: 0.85;
+    letter-spacing: -0.05em;
+    color: var(--color-blue);
+  }
+
+  .step__body {
+    display: grid;
+    gap: var(--space-xs);
+    max-width: 60ch;
+  }
+
+  .step__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-sm);
+  }
+
+  .step__title {
+    font-size: var(--text-xl);
+    text-transform: uppercase;
+  }
+
+  /* El plazo en monoespaciada: se lee como un dato, no como adorno. */
+  .step__time {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--color-grey);
+    border: 1px solid var(--color-line);
+    border-radius: 999px;
+    padding: 0.1rem 0.7rem;
+  }
+
+  .step__text {
+    color: var(--color-grey);
+  }
+
+  @media (max-width: 640px) {
+    .step {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

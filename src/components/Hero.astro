@@ -19,8 +19,11 @@ const trades = [
 <header class="hero">
   <div class="container hero__inner">
     <div class="hero__top">
-      <p class="eyebrow">Diseño web · Sevilla</p>
-      <p class="hero__meta">Est. 2026 — Dos Hermanas</p>
+      <p class="eyebrow">Diseño y desarrollo web</p>
+      <p class="hero__meta">
+        <span class="hero__dot" aria-hidden="true"></span>
+        Disponible para nuevos proyectos
+      </p>
     </div>
 
     <!-- Una sola línea: el nombre se escala al ancho disponible. -->
@@ -92,7 +95,10 @@ const trades = [
     bottom: 120px;
     width: 380px;
     height: 380px;
-    background-image: radial-gradient(var(--color-blue) 1.6px, transparent 1.6px);
+    background-image: radial-gradient(
+      var(--color-blue) 1.6px,
+      transparent 1.6px
+    );
     background-size: 18px 18px;
     opacity: 0.55;
     pointer-events: none;
@@ -118,9 +124,22 @@ const trades = [
   }
 
   .hero__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     color: var(--color-grey);
+  }
+
+  /* Punto de estado: señal de disponibilidad, no adorno. */
+  .hero__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #22c55e;
+    box-shadow: 0 0 0 0 rgb(34 197 94 / 60%);
+    animation: pulse 2.4s ease-out infinite;
   }
 
   /* Nombre a sangre: una línea, ajustado al ancho del contenedor. */
@@ -267,6 +286,12 @@ const trades = [
     to {
       opacity: 1;
       transform: none;
+    }
+  }
+
+  @keyframes pulse {
+    to {
+      box-shadow: 0 0 0 12px rgb(34 197 94 / 0%);
     }
   }
 
